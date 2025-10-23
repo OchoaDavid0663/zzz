@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ producto.nombre }} | Proveedores{% endblock %}
+
+{% block contenido %}
+<article class="product-detail">
+    <div class="product-banner">
+        {% if producto.foto_producto %}
+            <img src="{{ producto.foto_producto.url }}" alt="Foto de {{ producto.nombre }}" class="detail-photo">
+        {% else %}
+            <div class="detail-placeholder">👤</div>
+        {% endif %}
+        <div class="product-info">
+            <h1>{{ producto.nombre }}</h1>
+            <h3>{{ producto.descripcion }}</h3>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_producto:editar_producto' producto.id %}" class="btn btn-secondary">✏️ Editar</a>
+        <a href="{% url 'app_producto:borrar_producto' producto.id %}" class="btn btn-danger">🗑️ Borrar</a>
+    </div>
+
+    <section class="proveedor-section">
+        <h2>Proveedores</h2>
+        {% if producto.proveedores.all %}
+        <ul class="proveedor-list">
+            {% for proveedor in producto.proveedores.all %}
+            <li>{{ proveedor.titulo }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-message">Este producto no tiene algun proveedor registrado.</p>
+        {% endif %}
+    </section>
+</article>
+{% endblock %}
